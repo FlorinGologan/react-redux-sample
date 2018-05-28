@@ -1,53 +1,37 @@
-import _ from 'lodash'
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import axios from 'axios'
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+
+import reducers from './reducers/index'
 
 import SearchBar from './components/searchBar'
-import CourseList from './components/courseList'
-import CourseDetails from './components/courseDetails'
+
+import CourseList from './containers/courseList'
+import CourseDetails from './containers/courseDetails'
+
+const createStoreWithMiddleware = applyMiddleware()(createStore)
 
 class App extends Component {
   constructor (props) {
     super(props)
-
-    this.state = {
-      courses: [],
-      course: null
-    }
-
-    this.courseSearch()
-  }
-
-  courseSearch (query = '') {
-    axios.get('http://localhost:3000/courses', {
-      params: { name_like: query }
-    }).then(response => {
-      this.setState({
-        courses: response.data,
-        course: response.data[0]
-      })
-    })
   }
 
   render () {
-    const courseSearch = _.debounce((query) => {
-      this.courseSearch(query), 500
-    })
-
     return (
       <div>
         <SearchBar
           onSearchChange={ query => courseSearch(query) }/>
         <div className="row">
-          <CourseList
-            onCourseSelect={ course => this.setState({ course }) }
-            courses={ this.state.courses }/>
-          <CourseDetails course={ this.state.course }/>
+          <CourseList/>
+          <CourseDetails/>
         </div>
       </div>
     )
   }
 }
 
-ReactDOM.render(<App/>, document.querySelector('.container'))
+ReactDOM.render(
+  <Provider store={ createStoreWithMiddleware(reducers) }>
+    <App/>
+  </Provider>, document.querySelector('.container'))

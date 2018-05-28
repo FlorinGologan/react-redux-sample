@@ -1,6 +1,7 @@
 # react-redux sample
 
 Basic sample of a react with redux application using JSON Server as provider for data.
+
 Same implementation as [react-sample](https://github.com/FlorinGologan/react-sample) only using redux.
 
 ## Install and run

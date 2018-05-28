@@ -1,9 +1,5 @@
 import React, { Component } from 'react'
 
-// const SearchBar = () => {
-// 	return <input />
-// }
-
 class SearchBar extends Component {
 
   constructor (props) {
@@ -24,7 +20,6 @@ class SearchBar extends Component {
 
   onInputChange (query) {
     this.setState({ query })
-    this.props.onSearchChange(query)
   }
 }
 
